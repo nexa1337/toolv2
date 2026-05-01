@@ -551,6 +551,14 @@ export function InvoiceGenerator() {
           </Card>
 
           <Card>
+            <CardHeader><CardTitle>Your Information</CardTitle></CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2"><Label>{lang.fromName}</Label><Input value={data.fromName} onChange={e => updateField("fromName", e.target.value)} /></div>
+              <div className="space-y-2"><Label>{lang.fromAddress}</Label><Input value={data.fromAddress} onChange={e => updateField("fromAddress", e.target.value)} /></div>
+            </CardContent>
+          </Card>
+
+          <Card>
             <CardHeader><CardTitle>{lang.customerInfo}</CardTitle></CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2"><Label>{lang.customerName}</Label><Input value={data.toName} onChange={e => updateField("toName", e.target.value)} /></div>

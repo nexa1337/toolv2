@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AppLayout } from "./components/layout/AppLayout";
 import { ResumeGenerator } from "./pages/ResumeGenerator";
@@ -101,7 +101,7 @@ import { FileText, Presentation, Table, Globe, Lock, Archive, Wrench, Languages,
 export default function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/auth/v1/callback" element={<AuthCallback />} />
           <Route element={<AppLayout />}>
@@ -243,7 +243,7 @@ export default function App() {
           <Route path="/pwa/:id" element={<PwaInstallPage />} />
           <Route path="/pwa" element={<PwaInstallPage />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }
