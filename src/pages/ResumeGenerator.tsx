@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/services/storage";
 import { motion, AnimatePresence } from "motion/react";
+import { ProjectManager } from "@/components/ProjectManager";
 import { Loader2, Plus, Trash2, Eye, Edit3, ChevronDown, ChevronUp, AlertCircle, Lightbulb } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
@@ -452,9 +453,17 @@ export function ResumeGenerator() {
             <h1 className="text-3xl font-bold tracking-tight">ATS Resume Builder</h1>
             <p className="text-zinc-500 dark:text-zinc-400 mt-1">Create an ATS-friendly, professional resume.</p>
           </div>
-          <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 p-1 rounded-lg shrink-0">
-            <button 
-              onClick={() => setData(prev => ({ ...prev, language: "en" }))}
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <ProjectManager
+              storageKey="resume_projects_v1"
+              currentData={data}
+              onLoad={(newData) => setData(newData)}
+              titleExtractor={(d) => `${d.profile.firstName} ${d.profile.lastName}`}
+              typeLabel="Resume"
+            />
+            <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 p-1 rounded-lg">
+              <button 
+                onClick={() => setData(prev => ({ ...prev, language: "en" }))}
               className={cn("px-3 py-1.5 text-sm font-medium rounded-md transition-all", data.language !== "fr" ? "bg-white dark:bg-zinc-800 shadow-sm text-zinc-900 dark:text-zinc-100" : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100")}
             >
               English
@@ -465,6 +474,7 @@ export function ResumeGenerator() {
             >
               Français
             </button>
+            </div>
           </div>
         </div>
         

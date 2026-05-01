@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/services/storage";
 import { motion } from "motion/react";
+import { ProjectManager } from "@/components/ProjectManager";
 import { Loader2, Plus, Trash2, Eye, Edit3, Download, Printer, FileText, Image as ImageIcon, Mail } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { Document as DocxDocument, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, ImageRun } from "docx";
 import { saveAs } from "file-saver";
 import * as pdfjsLib from "pdfjs-dist";
@@ -162,9 +163,9 @@ const FacturePDF = ({ data }: { data: FactureData }) => {
             <View key={i} style={styles.tableRow}>
               <Text style={styles.colDesc}>{item.desc}</Text>
               <Text style={styles.colQty}>{item.qty}</Text>
-              <Text style={styles.colPrice}>{item.price.toFixed(2)} {data.currency}</Text>
+              <Text style={styles.colPrice}>{formatCurrency(item.price)} {data.currency}</Text>
               <Text style={styles.colTax}>{item.tax}%</Text>
-              <Text style={styles.colTotal}>{calculateItemAmount(item).toFixed(2)} {data.currency}</Text>
+              <Text style={styles.colTotal}>{formatCurrency(calculateItemAmount(item))} {data.currency}</Text>
             </View>
           ))}
         </View>
@@ -172,39 +173,39 @@ const FacturePDF = ({ data }: { data: FactureData }) => {
         <View style={styles.totals}>
           <View style={styles.totalRow}>
             <Text>{lang.subtotal}:</Text>
-            <Text>{subtotal.toFixed(2)} {data.currency}</Text>
+            <Text>{formatCurrency(subtotal)} {data.currency}</Text>
           </View>
           {data.taxType === "exclusive" && (
             <View style={styles.totalRow}>
               <Text>{lang.tax}:</Text>
-              <Text>{totalTax.toFixed(2)} {data.currency}</Text>
+              <Text>{formatCurrency(totalTax)} {data.currency}</Text>
             </View>
           )}
           {data.discount > 0 && (
             <View style={styles.totalRow}>
               <Text>{lang.discount}:</Text>
-              <Text>-{data.discount.toFixed(2)} {data.currency}</Text>
+              <Text>-{formatCurrency(data.discount)} {data.currency}</Text>
             </View>
           )}
           {data.shipping > 0 && (
             <View style={styles.totalRow}>
               <Text>{lang.shipping}:</Text>
-              <Text>{data.shipping.toFixed(2)} {data.currency}</Text>
+              <Text>{formatCurrency(data.shipping)} {data.currency}</Text>
             </View>
           )}
           {data.adjustment !== 0 && (
             <View style={styles.totalRow}>
               <Text>{lang.adjustment}:</Text>
-              <Text>{data.adjustment > 0 ? "+" : ""}{data.adjustment.toFixed(2)} {data.currency}</Text>
+              <Text>{data.adjustment > 0 ? "+" : ""}{formatCurrency(data.adjustment)} {data.currency}</Text>
             </View>
           )}
           <View style={[styles.totalRow, styles.grandTotal]}>
             <Text>{lang.total}:</Text>
-            <Text>{total.toFixed(2)} {data.currency}</Text>
+            <Text>{formatCurrency(total)} {data.currency}</Text>
           </View>
           {data.taxType === "inclusive" && (
             <View style={styles.totalRow}>
-              <Text style={{ fontSize: 8, color: "#666" }}>Includes Tax: {totalTax.toFixed(2)} {data.currency}</Text>
+              <Text style={{ fontSize: 8, color: "#666" }}>Includes Tax: {formatCurrency(totalTax)} {data.currency}</Text>
             </View>
           )}
         </View>
@@ -339,6 +340,13 @@ export function FactureGenerator() {
   };
 
   const handleDownloadWord = async () => {
+    const calculateItemAmount = (item: FactureItem) => {
+      const base = item.qty * item.price;
+      if (data.taxType === "exclusive") {
+        return base + (base * (item.tax / 100));
+      }
+      return base;
+    };
     const children: any[] = [];
     
     if (data.logo) {
@@ -389,8 +397,8 @@ export function FactureGenerator() {
             children: [
               new TableCell({ children: [new Paragraph(item.desc)] }),
               new TableCell({ children: [new Paragraph(item.qty.toString())] }),
-              new TableCell({ children: [new Paragraph(`${item.price} ${data.currency}`)] }),
-              new TableCell({ children: [new Paragraph(`${item.qty * item.price} ${data.currency}`)] }),
+              new TableCell({ children: [new Paragraph(`${formatCurrency(item.price)} ${data.currency}`)] }),
+              new TableCell({ children: [new Paragraph(`${formatCurrency(calculateItemAmount(item))} ${data.currency}`)] }),
             ]
           }))
         ]
@@ -443,6 +451,13 @@ export function FactureGenerator() {
             <p className="text-zinc-500 dark:text-zinc-400 mt-1">Create professional factures instantly.</p>
           </div>
           <div className="flex items-center gap-2">
+            <ProjectManager
+              storageKey="facture_projects_v1"
+              currentData={data}
+              onLoad={(newData) => setData(newData)}
+              titleExtractor={(d) => d.factureNum}
+              typeLabel="Facture"
+            />
             <select 
               className="h-9 rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm dark:border-zinc-800 dark:bg-zinc-950"
               value={data.lang}

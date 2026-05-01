@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/services/storage";
 import { motion } from "motion/react";
+import { ProjectManager } from "@/components/ProjectManager";
 import { Loader2, Eye, Edit3, Download, Printer, Trash2 } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 11, color: "#333", lineHeight: 1.5 },
@@ -138,15 +139,15 @@ const ReceiptPDF = ({ data }: { data: ReceiptData }) => {
         <View style={styles.financials}>
           <View style={styles.finRow}>
             <Text>{lang.total}:</Text>
-            <Text>{data.total.toFixed(2)} {data.currency}</Text>
+            <Text>{formatCurrency(data.total)} {data.currency}</Text>
           </View>
           <View style={styles.finRow}>
             <Text>{lang.advance}:</Text>
-            <Text>{data.advance.toFixed(2)} {data.currency}</Text>
+            <Text>{formatCurrency(data.advance)} {data.currency}</Text>
           </View>
           <View style={styles.finTotal}>
             <Text>{lang.remaining}:</Text>
-            <Text>{remaining.toFixed(2)} {data.currency}</Text>
+            <Text>{formatCurrency(remaining)} {data.currency}</Text>
           </View>
         </View>
 
@@ -267,6 +268,13 @@ export function DocumentGenerator() {
             <p className="text-zinc-500 dark:text-zinc-400 mt-1">Create professional payment receipts.</p>
           </div>
           <div className="flex items-center gap-2">
+            <ProjectManager
+              storageKey="receipt_projects_v1"
+              currentData={data}
+              onLoad={(newData) => setData(newData)}
+              titleExtractor={(d) => d.receiptNumber}
+              typeLabel="Receipt"
+            />
             <select 
               className="h-9 rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm dark:border-zinc-800 dark:bg-zinc-950"
               value={data.lang}
@@ -360,7 +368,7 @@ export function DocumentGenerator() {
               <div className="space-y-2 sm:col-span-3">
                 <div className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex justify-between items-center">
                   <span className="font-medium">{lang.remaining}:</span>
-                  <span className="font-bold text-lg">{Math.max(0, data.total - data.advance).toFixed(2)} {data.currency}</span>
+                  <span className="font-bold text-lg">{formatCurrency(Math.max(0, data.total - data.advance))} {data.currency}</span>
                 </div>
               </div>
             </CardContent>

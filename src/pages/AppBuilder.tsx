@@ -130,6 +130,7 @@ export function AppBuilder() {
 
   const insertElement = (elements: AppElement[], targetId: string, newEl: AppElement): AppElement[] => {
     return elements.map(el => {
+      if (!el || !el.props) return el;
       if (el.id === targetId) {
         return { ...el, children: [...el.children, newEl] };
       }
@@ -148,8 +149,9 @@ export function AppBuilder() {
   const updateElementProps = (id: string, newProps: any) => {
     const updateRecursive = (elements: AppElement[]): AppElement[] => {
       return elements.map(el => {
+        if (!el || !el.props) return el;
         if (el.id === id) return { ...el, props: { ...el.props, ...newProps } };
-        if (el.children.length > 0) return { ...el, children: updateRecursive(el.children) };
+        if (el.children && el.children.length > 0) return { ...el, children: updateRecursive(el.children) };
         return el;
       });
     };
@@ -159,9 +161,9 @@ export function AppBuilder() {
   const removeElement = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const removeRecursive = (elements: AppElement[]): AppElement[] => {
-      return elements.filter(el => el.id !== id).map(el => ({
+      return elements.filter(el => el && el.id !== id).map(el => ({
         ...el,
-        children: removeRecursive(el.children)
+        children: el.children ? removeRecursive(el.children) : []
       }));
     };
     updateScreenElements(currentScreenId, removeRecursive(currentScreen.elements));
@@ -176,10 +178,14 @@ export function AppBuilder() {
 
   // --- Find Selected Element ---
   const findElement = (elements: AppElement[], id: string): AppElement | null => {
+    if (!elements || !Array.isArray(elements)) return null;
     for (const el of elements) {
+      if (!el) continue;
       if (el.id === id) return el;
-      const found = findElement(el.children, id);
-      if (found) return found;
+      if (el.children && Array.isArray(el.children)) {
+        const found = findElement(el.children, id);
+        if (found) return found;
+      }
     }
     return null;
   };
@@ -187,6 +193,7 @@ export function AppBuilder() {
 
   // --- Renderers ---
   const renderElement = (el: AppElement) => {
+    if (!el || !el.props) return null;
     const isSelected = selectedId === el.id;
     const def = COMPONENT_REGISTRY.find(c => c.type === el.type);
     const isContainer = def?.isContainer;
@@ -375,7 +382,8 @@ export function AppBuilder() {
   const generateCode = () => {
     const generateJSX = (elements: AppElement[], indent = '      '): string => {
       return elements.map(el => {
-        const propsStr = Object.entries(el.props)
+        if (!el || !el.props) return '';
+        const propsStr = Object.entries(el.props || {})
           .filter(([k]) => k !== 'children')
           .map(([k, v]) => `${k}="${v}"`)
           .join(' ');
