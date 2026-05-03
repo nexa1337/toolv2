@@ -67,10 +67,10 @@
 
 @layer base {
   * {
-    @apply border-zinc-200 dark:border-[#1e2330];
+    @apply border-zinc-200 dark:border-[#374151];
   }
   body {
-    @apply bg-zinc-50 text-zinc-950 dark:bg-[#0f1117] dark:text-zinc-50;
+    @apply bg-zinc-50 text-zinc-950 dark:bg-[#111827] dark:text-zinc-50;
   }
 }
 
@@ -110,11 +110,11 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #111827;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #1f2937;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: #1f2937;
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
@@ -216,7 +216,7 @@
 
   --animate-flash: flash 1.5s infinite;
 
-  --color-zinc-950: #0f1117;
-  --color-zinc-900: #161b22;
-  --color-zinc-800: #1e2330;
+  --color-zinc-950: #111827;
+  --color-zinc-900: #1f2937;
+  --color-zinc-800: #374151;
 }

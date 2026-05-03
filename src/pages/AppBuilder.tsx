@@ -198,7 +198,7 @@ export function AppBuilder() {
     const def = COMPONENT_REGISTRY.find(c => c.type === el.type);
     const isContainer = def?.isContainer;
 
-    const baseClasses = `relative group transition-all outline-none ${isSelected ? 'ring-2 ring-blue-500 ring-offset-1 dark:ring-offset-[#0f1117] z-10' : 'hover:ring-2 hover:ring-blue-300/50 dark:hover:ring-blue-700/50 hover:ring-offset-1 dark:hover:ring-offset-[#0f1117]'}`;
+    const baseClasses = `relative group transition-all outline-none ${isSelected ? 'ring-2 ring-blue-500 ring-offset-1 dark:ring-offset-[#111827] z-10' : 'hover:ring-2 hover:ring-blue-300/50 dark:hover:ring-blue-700/50 hover:ring-offset-1 dark:hover:ring-offset-[#111827]'}`;
     
     const handleElementClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -800,7 +800,7 @@ Run \`eas build -p android\`
           {/* Responsive Scaling Container */}
           <div className="w-full h-full flex items-center justify-center min-h-0 min-w-0">
             <div 
-              className={`transition-all duration-300 ease-in-out relative flex flex-col bg-white dark:bg-[#0f1117] overflow-hidden shadow-2xl ${
+              className={`transition-all duration-300 ease-in-out relative flex flex-col bg-white dark:bg-[#111827] overflow-hidden shadow-2xl ${
                 deviceMode === 'mobile' ? 'w-full max-w-[375px] h-full max-h-[812px] rounded-[2.5rem] border-[10px] sm:border-[14px] border-zinc-900 dark:border-black' : 
                 deviceMode === 'tablet' ? 'w-full max-w-[768px] h-full max-h-[1024px] rounded-[1.5rem] sm:rounded-[2rem] border-[8px] sm:border-[12px] border-zinc-900 dark:border-black' : 
                 'w-full h-full rounded-lg border border-zinc-200 dark:border-zinc-800'
