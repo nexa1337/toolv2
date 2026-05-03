@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/services/storage";
 import { motion, AnimatePresence } from "motion/react";
-import { ProjectManager } from "@/components/ProjectManager";
+import { ProjectManager } from "@/components/ProjectManager.tsx";
 import { Loader2, Plus, Trash2, Eye, Edit3, ChevronDown, ChevronUp, AlertCircle, Lightbulb } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { storage } from "@/services/storage";
 import { motion } from "motion/react";
-import { ProjectManager } from "@/components/ProjectManager";
+import { ProjectManager } from "@/components/ProjectManager.tsx";
 import { Loader2, Eye, Edit3, Download, Printer, Trash2 } from "lucide-react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn, formatCurrency } from "@/lib/utils";
