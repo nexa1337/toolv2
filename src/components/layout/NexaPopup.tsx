@@ -33,14 +33,14 @@ export function NexaPopup({ isOpen, onClose }: NexaPopupProps) {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="fixed left-1/2 top-1/2 z-[101] w-full max-w-md -translate-x-1/2 -translate-y-1/2 p-4"
           >
-            <div className="overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/90 shadow-2xl backdrop-blur-xl dark:border-[#1e2330]/50 dark:bg-[#161b22]/90">
-              <div className="flex items-center justify-between border-b border-zinc-200/50 p-4 dark:border-[#1e2330]/50">
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/50 bg-white/90 shadow-2xl backdrop-blur-xl dark:border-[#374151]/50 dark:bg-[#1f2937]/90">
+              <div className="flex items-center justify-between border-b border-zinc-200/50 p-4 dark:border-[#374151]/50">
                 <h2 className="text-lg font-bold tracking-widest text-zinc-900 dark:text-zinc-50">
                   N E X A 1337
                 </h2>
                 <button
                   onClick={onClose}
-                  className="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-[#1e2330]"
+                  className="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-[#374151]"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -52,7 +52,7 @@ export function NexaPopup({ isOpen, onClose }: NexaPopupProps) {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-between rounded-xl border border-zinc-200/50 bg-zinc-50/50 p-3 transition-all hover:bg-zinc-100 dark:border-[#1e2330]/50 dark:bg-[#1e2330]/50 dark:hover:bg-[#252b3b]"
+                    className="group flex items-center justify-between rounded-xl border border-zinc-200/50 bg-zinc-50/50 p-3 transition-all hover:bg-zinc-100 dark:border-[#374151]/50 dark:bg-[#1e2330]/50 dark:hover:bg-[#252b3b]"
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200/50 text-zinc-600 dark:bg-[#252b3b]/50 dark:text-zinc-400">
